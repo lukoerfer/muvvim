@@ -1,0 +1,11 @@
+﻿<Window x:Class="MvvmUtilTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:u="clr-namespace:MvvmUtil.Extensions;assembly=MvvmUtil"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid u:Layout.Columns="* *" u:Layout.Rows="* *">
+        <Button Command="{Binding OpenGeneric}">Open Generic</Button>
+        <Button u:Layout.Position="1 0" Command="{Binding OpenBase}">Open Base</Button>
+        <Button u:Layout.Position="0-1 1" Command="{Binding Close}">Close</Button>
+    </Grid>
+</Window>

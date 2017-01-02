@@ -18,6 +18,9 @@ namespace MvvmUtil.PropertyChanged
             this.RaiseInstance = raiseInstance;
         }
 
+        public PropertyChangedChildRegister(object instance) 
+            : this((IRaisePropertyChanged)instance) { }
+
         public void RegisterProperty(string propertyName, INotifyPropertyChanged property)
         {
             property.PropertyChanged += (sender, args) => this.HandlePropertyChanged(propertyName, args);

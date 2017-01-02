@@ -8,12 +8,12 @@ namespace MvvmUtil.Converter.Special
 {
     public class BooleanToVisibilityConverter : ValueConverter<bool, string, Visibility>
     {
-        public override Visibility Convert(bool value, string parameter)
+        protected override Visibility Convert(bool value, string parameter)
         {
             return InverseOnParameter(value, parameter) ? Visibility.Visible : GetInvisibility(parameter);
         }
 
-        public override bool ConvertBack(Visibility value, string parameter)
+        protected override bool ConvertBack(Visibility value, string parameter)
         {
             return InverseOnParameter(value == Visibility.Visible, parameter);
         }

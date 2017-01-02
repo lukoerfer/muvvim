@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -22,12 +23,12 @@ namespace MvvmUtil.Command
             return true;
         }
 
-        public void Execute(object parameter)
+        public void Execute()
         {
             this.Execution.Invoke();
         }
 
-        public void Execute()
+        public void Execute(object parameter)
         {
             this.Execution.Invoke();
         }

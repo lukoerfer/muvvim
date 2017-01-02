@@ -5,17 +5,17 @@ using System.Text;
 
 namespace MvvmUtil.Converter.Boolean
 {
-    public class BooleanAssignConverter : SimpleValueConverter<bool, object>
+    public class BooleanAssignConverter<T> : SimpleValueConverter<bool, T>
     {
-        public object TrueObject { get; set; }
-        public object FalseObject { get; set; }
+        public T TrueObject { get; set; }
+        public T FalseObject { get; set; }
 
-        protected override object Convert(bool value)
+        protected override T Convert(bool value)
         {
             return value ? this.TrueObject : this.FalseObject;
         }
 
-        protected override bool ConvertBack(object value)
+        protected override bool ConvertBack(T value)
         {
             if (value.Equals(this.TrueObject)) return true;
             if (value.Equals(this.FalseObject)) return false;

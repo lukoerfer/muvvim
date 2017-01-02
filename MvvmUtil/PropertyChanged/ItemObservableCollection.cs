@@ -27,9 +27,13 @@ namespace MvvmUtil.PropertyChanged
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             if (args.NewItems != null)
+            {
                 this.Register(args.NewItems.OfType<T>());
+            }
             if (args.OldItems != null)
+            {
                 this.Unregister(args.OldItems.OfType<T>());
+            }
             base.OnCollectionChanged(args);
         }
 

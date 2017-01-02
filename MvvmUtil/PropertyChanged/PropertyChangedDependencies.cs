@@ -12,55 +12,69 @@ namespace MvvmUtil.PropertyChanged
         private INotifyPropertyChanged NotifyInstance;
         private IRaisePropertyChanged RaiseInstance;
 
-        private object DependencyLock;
-        private List<PropertyChangedDependency> Dependencies;
-
-        public PropertyChangedDependencies(object instance) 
-            : this((INotifyPropertyChanged)instance, (IRaisePropertyChanged)instance) { }
+        private object RuleLock;
+        private List<DependencyRule> Rules;
 
         public PropertyChangedDependencies(INotifyPropertyChanged notify, IRaisePropertyChanged raise)
         {
-            this.DependencyLock = new object();
-            this.Dependencies = new List<PropertyChangedDependency>();
+            this.RuleLock = new object();
+            this.Rules = new List<DependencyRule>();
             this.NotifyInstance = notify;
             this.RaiseInstance = raise;
             this.NotifyInstance.PropertyChanged += this.HandlePropertyChanged;
         }
 
-        public void AddDependency(string property, string dependsOn)
+        public PropertyChangedDependencies(object instance)
+            : this((INotifyPropertyChanged)instance, (IRaisePropertyChanged)instance) { }
+
+        public void AddDependency(string property, string dependency)
         {
-            lock (this.DependencyLock)
+            lock (this.RuleLock)
             {
-                this.Dependencies.Add(new PropertyChangedDependency(property, dependsOn));
+                this.Rules.Add(new DependencyRule(property, dependency));
+                if (this.AnyLoop(property, dependency))
+                {
+                    throw new InvalidOperationException("Creating dependency loops is not allowed");
+                }
             }
+        }
+
+        private bool AnyLoop(string property, string dependency)
+        {
+            if (property.Equals(dependency)) return true;
+            return this.Rules
+                .Where(rule => rule.Property.Equals(dependency))
+                .Select(rule => rule.Dependency)
+                .Any(dep => this.AnyLoop(property, dep));
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            lock (this.DependencyLock)
+            lock (this.RuleLock)
             {
-                this.Dependencies
-                    .Where(dependency => dependency.DependsOn.Equals(args.PropertyName))
+                this.Rules
+                    .Where(dependency => dependency.Dependency.Equals(args.PropertyName))
+                    .Select(dependency => dependency.Property)
                     .ToList()
-                    .ForEach(dependency => this.RaisePropertyChanged(dependency.Property));
+                    .ForEach(this.RaisePropertyChanged);
             }
         }
 
-        private void RaisePropertyChanged(string property)
+        private void RaisePropertyChanged(string propertyName)
         {
-            this.RaiseInstance.RaisePropertyChanged(new PropertyChangedEventArgs(property));
+            this.RaiseInstance.RaisePropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 
-    internal class PropertyChangedDependency
+    internal class DependencyRule
     {
         public string Property { get; set; }
-        public string DependsOn { get; set; }
+        public string Dependency { get; set; }
 
-        public PropertyChangedDependency(string property, string dependsOn)
+        public DependencyRule(string property, string dependency)
         {
             this.Property = property;
-            this.DependsOn = dependsOn;
+            this.Dependency = dependency;
         }
     }
 }

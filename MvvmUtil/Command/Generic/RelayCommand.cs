@@ -22,21 +22,14 @@ namespace MvvmUtil.Command
             return true;
         }
 
-        public void Execute(object parameter)
-        {
-            if (parameter is T)
-            {
-                this.Execution.Invoke((T)parameter);
-            }
-            else
-            {
-                throw new ArgumentException("Wrong parameter type", "parameter");
-            }
-        }
-
         public void Execute(T parameter)
         {
             this.Execution.Invoke(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            this.Execution.Invoke((T)parameter);
         }
     }
 }
