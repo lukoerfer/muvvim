@@ -6,33 +6,44 @@ using System.Windows;
 
 namespace MvvmUtil.Converter.Special
 {
-    public class BooleanToVisibilityConverter : ValueConverter<bool, string, Visibility>
+    /// <summary>
+    /// Implements the conversion from a boolean value to a visibility
+    /// </summary>
+    public class BooleanToVisibilityConverter : Converter<bool, string, Visibility>
     {
-        protected override Visibility Convert(bool value, string parameter)
+        private const string InverseParameter = "Inverse";
+        private const string CollapseParameter = "Collapse";
+
+        /// <summary>
+        /// Converts a boolean to a visibility
+        /// </summary>
+        /// <param name="value">The input boolean value</param>
+        /// <param name="parameters">A string containing parameters</param>
+        /// <returns>A visibility, depending on the input boolean and possible parameters</returns>
+        protected override Visibility Convert(bool value, string parameters)
         {
-            return InverseOnParameter(value, parameter) ? Visibility.Visible : GetInvisibility(parameter);
+            return InverseIfRequested(value, parameters) ? Visibility.Visible : DetermineRequestedInvisibility(parameters);
         }
 
-        protected override bool ConvertBack(Visibility value, string parameter)
+        /// <summary>
+        /// Converts a visibility to a boolean
+        /// </summary>
+        /// <param name="value">A visibility</param>
+        /// <param name="parameters">A string containing parameters</param>
+        /// <returns>A boolean value, depending on the input visibility and possible parameter</returns>
+        protected override bool ConvertBack(Visibility value, string parameters)
         {
-            return InverseOnParameter(value == Visibility.Visible, parameter);
+            return InverseIfRequested(value == Visibility.Visible, parameters);
         }
 
-        #region | Parameters |
-
-        private const string InverseParameter = "inverse";
-        private const string CollapseParameter = "collapse";
-
-        private static bool InverseOnParameter(bool value, string parameter)
+        private static bool InverseIfRequested(bool value, string parameters)
         {
-            return value ^ parameter.Contains(InverseParameter);
+            return value ^ parameters.Contains(InverseParameter);
         }
 
-        private static Visibility GetInvisibility(string parameter)
+        private static Visibility DetermineRequestedInvisibility(string parameters)
         {
-            return parameter.Contains(CollapseParameter) ? Visibility.Collapsed : Visibility.Hidden;
+            return parameters.Contains(CollapseParameter) ? Visibility.Collapsed : Visibility.Hidden;
         }
-
-        #endregion // Parameters
     }
 }

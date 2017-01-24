@@ -4,14 +4,22 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace MvvmUtil.Converter.Special
+namespace MvvmUtil.Converter.Enum
 {
-    public class EnumDescriptionConverter : SimpleValueConverter<Enum, string>
+    /// <summary>
+    /// Implements the conversion of an enum value to its description attribute value
+    /// </summary>
+    public class EnumDescriptionConverter : SimpleConverter<System.Enum, string>
     {
-        protected override string Convert(Enum value)
+        /// <summary>
+        /// Converts an enum value to its description attribute value
+        /// </summary>
+        /// <param name="value">The input enum value</param>
+        /// <returns>The associated description attribute value or null, if no description attribute is set</returns>
+        protected sealed override string Convert(System.Enum value)
         {
             return value.GetType()
-                .GetField(Enum.GetName(value.GetType(), value))
+                .GetField(System.Enum.GetName(value.GetType(), value))
                 .GetCustomAttributes(typeof(DescriptionAttribute), false)
                 .Cast<DescriptionAttribute>()
                 .Select(attr => attr.Description)
@@ -21,7 +29,7 @@ namespace MvvmUtil.Converter.Special
         /// <summary>
         /// Back conversion is not supported
         /// </summary>
-        protected override Enum ConvertBack(string value)
+        protected sealed override System.Enum ConvertBack(string value)
         {
             throw new NotSupportedException();
         }

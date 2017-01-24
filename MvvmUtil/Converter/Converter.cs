@@ -5,15 +5,15 @@ using System.Windows.Data;
 namespace MvvmUtil.Converter
 {
     /// <summary>
-    /// Provides a type-safe base converter class with parameter support
+    /// Provides a type-safe base converter with parameter support
     /// </summary>
     /// <typeparam name="ValueType">The converter value type</typeparam>
     /// <typeparam name="ParameterType">The converter parameter type</typeparam>
     /// <typeparam name="TargetType">The converter target type</typeparam>
-    public abstract class ValueConverter<ValueType, ParameterType, TargetType> : IValueConverter
+    public abstract class Converter<ValueType, ParameterType, TargetType> : IValueConverter
     {
         /// <summary>
-        /// Provides a simple way to implement the desired conversion
+        /// Provides a type-safe way to implement the conversion
         /// </summary>
         /// <param name="value">The input value</param>
         /// <param name="parameter">The parameter value</param>
@@ -21,7 +21,7 @@ namespace MvvmUtil.Converter
         protected abstract TargetType Convert(ValueType value, ParameterType parameter);
 
         /// <summary>
-        /// Provides a simple way to implement the desired back-conversion
+        /// Provides a type-safe way to implement the back-conversion
         /// </summary>
         /// <param name="value">The back-conversion input value</param>
         /// <param name="parameter">The parameter value</param>
@@ -32,9 +32,9 @@ namespace MvvmUtil.Converter
         /// Applies the implemented conversion and handles the required object casting
         /// </summary>
         /// <param name="value">The input value</param>
-        /// <param name="targetType">An ignored target type</param>
-        /// <param name="parameter">The converter parameter</param>
-        /// <param name="culture">An ignored culture</param>
+        /// <param name="targetType">A type, will be ignored</param>
+        /// <param name="parameter">The converter parameter object</param>
+        /// <param name="culture">A culture, will be ignored</param>
         /// <returns>The conversion result</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -47,9 +47,9 @@ namespace MvvmUtil.Converter
         /// Applies the implemented back-conversion and handles the required object casting
         /// </summary>
         /// <param name="value">The back-conversion input value</param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter">The converter parameter</param>
-        /// <param name="culture"></param>
+        /// <param name="targetType">A target type, will be ignored</param>
+        /// <param name="parameter">The converter parameter object</param>
+        /// <param name="culture">A culture, will be ignored</param>
         /// <returns>The back-conversion result</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

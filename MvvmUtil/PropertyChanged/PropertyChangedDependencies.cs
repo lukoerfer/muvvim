@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MvvmUtil.PropertyChanged
 {
+    /// <summary>
+    /// Provides the possibility to register property changed dependencies
+    /// </summary>
     public class PropertyChangedDependencies
     {
         private INotifyPropertyChanged NotifyInstance;
@@ -15,6 +18,21 @@ namespace MvvmUtil.PropertyChanged
         private object RuleLock;
         private List<DependencyRule> Rules;
 
+        /// <summary>
+        /// Creates a new PropertyChanged dependency register
+        /// </summary>
+        /// <param name="instance">
+        /// The instance which both raises and notifies about PropertyChanged events,
+        /// must be both INotifyPropertyChanged and IRaisePropertyChanged
+        /// </param>
+        public PropertyChangedDependencies(object instance)
+            : this((INotifyPropertyChanged)instance, (IRaisePropertyChanged)instance) { }
+
+        /// <summary>
+        /// Creates a new PropertyChanged dependency register
+        /// </summary>
+        /// <param name="notify">The instance which notifies about property changes</param>
+        /// <param name="raise">The instance which raises property change events</param>
         public PropertyChangedDependencies(INotifyPropertyChanged notify, IRaisePropertyChanged raise)
         {
             this.RuleLock = new object();
@@ -24,10 +42,12 @@ namespace MvvmUtil.PropertyChanged
             this.NotifyInstance.PropertyChanged += this.HandlePropertyChanged;
         }
 
-        public PropertyChangedDependencies(object instance)
-            : this((INotifyPropertyChanged)instance, (IRaisePropertyChanged)instance) { }
-
-        public void AddDependency(string property, string dependency)
+        /// <summary>
+        /// Registers a new PropertyChanged dependency
+        /// </summary>
+        /// <param name="property">The name of the depending property</param>
+        /// <param name="dependency">The name of the causing property</param>
+        public void RegisterDependency(string property, string dependency)
         {
             lock (this.RuleLock)
             {

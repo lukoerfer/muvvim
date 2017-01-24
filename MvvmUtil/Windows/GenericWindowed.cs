@@ -36,7 +36,7 @@ namespace MvvmUtil.Windows
             if (this.PropertyChanged != null)
             {
                 this.PropertyChanged.Invoke(this,
-                    new PropertyChangedEventArgs(string.Join(char.ToString(Separators.Point), nameof(this.Context), args.PropertyName)));
+                    new PropertyChangedEventArgs(string.Join(Separators.Point, nameof(this.Context), args.PropertyName)));
             }
         }
 

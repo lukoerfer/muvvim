@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace MvvmUtil.Converter
+namespace MvvmUtil.Converter.Special
 {
     /// <summary>
     /// Encapsulates the functionality of multiple converters by chaining them in a list

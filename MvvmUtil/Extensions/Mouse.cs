@@ -7,96 +7,122 @@ using System.Windows.Input;
 
 namespace MvvmUtil.Extensions
 {
+    /// <summary>
+    /// Provides attached properties to receive mouse events via commands
+    /// </summary>
     public static class Mouse
     {
-        private const string OnPressedPropertyKey = "OnPressed";
-
+        /// <summary>
+        /// Registers the attached property to execute a command on mouse down events
+        /// </summary>
         public static DependencyProperty OnPressedProperty =
-            DependencyProperty.RegisterAttached(OnPressedPropertyKey, typeof(ICommand), typeof(Mouse), 
+            DependencyProperty.RegisterAttached("OnPressed", typeof(ICommand), typeof(Mouse),
                 new FrameworkPropertyMetadata(null, OnPressedChanged));
 
-        private const string OnReleasedPropertyKey = "OnReleased";
-
+        /// <summary>
+        /// Registers the attached property to execute a command on mouse up events
+        /// </summary>
         public static DependencyProperty OnReleasedProperty =
-            DependencyProperty.RegisterAttached(OnReleasedPropertyKey, typeof(ICommand), typeof(Mouse), 
+            DependencyProperty.RegisterAttached("OnReleased", typeof(ICommand), typeof(Mouse),
                 new FrameworkPropertyMetadata(null, OnReleasedChanged));
 
-        private const string EnableStatesPropertyKey = "EnableStates";
+        /// <summary>
+        /// Registers the attached property to execute a command on mouse wheel events
+        /// </summary>
+        public static DependencyProperty OnWheelProperty =
+            DependencyProperty.RegisterAttached("OnWheel", typeof(ICommand), typeof(Mouse),
+                new FrameworkPropertyMetadata(null, OnWheelChanged));
 
-        public static DependencyProperty EnableStatesProperty =
-            DependencyProperty.RegisterAttached(EnableStatesPropertyKey, typeof(bool), typeof(Mouse),
-                new FrameworkPropertyMetadata(false, EnableStatesChanged));
-
-        private const string IsPressedPropertyKey = "IsPressed";
-
-        public static DependencyProperty IsPressedProperty =
-            DependencyProperty.RegisterAttached(IsPressedPropertyKey, typeof(bool), typeof(Mouse));
-
-        public static void SetOnPressed(DependencyObject obj, ICommand value)
+        /// <summary>
+        /// Sets the command to execute on mouse down events
+        /// </summary>
+        /// <param name="element">The element</param>
+        /// <param name="command">The command to execute on mouse down events</param>
+        public static void SetOnPressed(FrameworkElement element, ICommand command)
         {
-            obj.SetValue(OnPressedProperty, value);
+            element.SetValue(OnPressedProperty, command);
         }
 
-        public static void SetOnReleased(DependencyObject obj, ICommand value)
+        public static ICommand GetOnPressed(FrameworkElement element)
         {
-            obj.SetValue(OnReleasedProperty, value);
+            return (ICommand)element.GetValue(OnPressedProperty);
         }
 
-        public static void SetEnableStates(DependencyObject obj, bool value)
+        /// <summary>
+        /// Sets the command to execute on mouse up events
+        /// </summary>
+        /// <param name="element">The element</param>
+        /// <param name="command">The command to execute on mouse up events</param>
+        public static void SetOnReleased(FrameworkElement element, ICommand command)
         {
-            obj.SetValue(EnableStatesProperty, value);
+            element.SetValue(OnReleasedProperty, command);
+        }
+
+        public static ICommand GetOnReleased(FrameworkElement element)
+        {
+            return (ICommand)element.GetValue(OnReleasedProperty);
+        }
+
+        /// <summary>
+        /// Sets the command to execute on mouse wheel events
+        /// </summary>
+        /// <param name="element">The element</param>
+        /// <param name="command">The command to execute on mouse wheel events</param>
+        public static void SetOnWheel(FrameworkElement element, ICommand command)
+        {
+            element.SetValue(OnWheelProperty, command);
+        }
+
+        public static ICommand GetOnWheel(FrameworkElement element)
+        {
+            return (ICommand)element.GetValue(OnWheelProperty);
         }
 
         private static void OnPressedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)obj;
             // Check for new value
             if (args.NewValue != null)
             {
-                // Register mouse down handler
+                // Register mouse down event
                 element.PreviewMouseDown += OnPreviewMouseDown;
             }
             else
             {
-                // Unregister mouse down handler
+                // Unregister mouse down event
                 element.PreviewMouseDown -= OnPreviewMouseDown;
             }
         }
 
         private static void OnReleasedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)obj;
             // Check for new value
             if (args.NewValue != null)
             {
-                // Register mouse up handler
+                // Register mouse up event
                 element.PreviewMouseUp += OnPreviewMouseUp;
             }
             else
             {
-                // Unregister mouse up handler
+                // Unregister mouse up event
                 element.PreviewMouseUp -= OnPreviewMouseUp;
             }
         }
 
-        private static void EnableStatesChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static void OnWheelChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)obj;
-            // Cast the new value
-            if ((bool)args.NewValue)
+            // Check for new value
+            if (args.NewValue != null)
             {
-                // Register mouse events
-                element.PreviewMouseDown += OnPreviewMouseEvent;
-                element.PreviewMouseUp += OnPreviewMouseEvent;
+                // Register mouse wheel event
+                element.PreviewMouseWheel += OnPreviewMouseWheel;
             }
             else
             {
-                // Unregister mouse events
-                element.PreviewMouseDown -= OnPreviewMouseEvent;
-                element.PreviewMouseUp -= OnPreviewMouseEvent;
+                // Unregister mouse wheel event
+                element.PreviewMouseWheel -= OnPreviewMouseWheel;
             }
         }
 
@@ -106,7 +132,7 @@ namespace MvvmUtil.Extensions
             FrameworkElement element = (FrameworkElement)sender;
             // Cast the current handlers
             ICommand pressedHandler = element.GetValue(OnPressedProperty) as ICommand;
-            // Execute the pressed handler is possible
+            // Execute the pressed handler if possible
             if (pressedHandler != null && pressedHandler.CanExecute(args.ChangedButton))
             {
                 pressedHandler.Execute(args.ChangedButton);
@@ -126,16 +152,17 @@ namespace MvvmUtil.Extensions
             }
         }
 
-        private static void OnPreviewMouseEvent(object sender, MouseButtonEventArgs args)
+        private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs args)
         {
             // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)sender;
-            // Determine the press state
-            bool pressState = new MouseButtonState[] { args.LeftButton, args.MiddleButton,
-                args.RightButton, args.XButton1, args.XButton2 }
-                    .Any(state => state == MouseButtonState.Pressed);
-            // Set the press state value
-            element.SetValue(IsPressedProperty, pressState);
+            // Cast the current released handler
+            ICommand wheelHandler = element.GetValue(OnWheelProperty) as ICommand;
+            // Execute the released handler if possible
+            if (wheelHandler != null && wheelHandler.CanExecute(args.Delta))
+            {
+                wheelHandler.Execute(args.Delta);
+            }
         }
     }
 }
