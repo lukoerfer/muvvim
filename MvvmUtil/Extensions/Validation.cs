@@ -57,6 +57,11 @@ namespace MvvmUtil.Extensions
             textBox.SetValue(PatternProperty, pattern);
         }
 
+        /// <summary>
+        /// Gets the textbox input validation RegEx pattern
+        /// </summary>
+        /// <param name="textBox">The validated textbox</param>
+        /// <returns>The RegEx validation pattern</returns>
         public static string GetPattern(TextBox textBox)
         {
             return (string)textBox.GetValue(PatternProperty);

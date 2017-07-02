@@ -26,5 +26,15 @@ namespace MvvmUtil.Util
         /// Defines the point separator
         /// </summary>
         public const string Point = ".";
+
+        /// <summary>
+        /// Converts a string to a char by using the first character
+        /// </summary>
+        /// <param name="str">An input string</param>
+        /// <returns>The first character of the input string or the 0 char, if the input string is empty</returns>
+        public static char ToChar(this string str)
+        {
+            return str.FirstOrDefault();
+        }
     }
 }

@@ -73,6 +73,11 @@ namespace MvvmUtil.Extensions
             element.SetValue(OnWheelProperty, command);
         }
 
+        /// <summary>
+        /// Gets the command to execute on mouse wheel events
+        /// </summary>
+        /// <param name="element">The element</param>
+        /// <returns>The command to execute on mouse wheel events or null, if it does not exist</returns>
         public static ICommand GetOnWheel(FrameworkElement element)
         {
             return (ICommand)element.GetValue(OnWheelProperty);

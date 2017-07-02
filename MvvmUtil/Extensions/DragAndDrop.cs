@@ -90,7 +90,7 @@ namespace MvvmUtil.Extensions
         }
 
         /// <summary>
-        /// Sets the drop command for a target element
+        /// Sets the drop command of a target element
         /// </summary>
         /// <param name="targetElement">The target element</param>
         /// <param name="dropCommand">The drop command</param>
@@ -99,6 +99,11 @@ namespace MvvmUtil.Extensions
             targetElement.SetValue(OnDropProperty, dropCommand);
         }
 
+        /// <summary>
+        /// Gets the drop command of a target element
+        /// </summary>
+        /// <param name="targetElement">The target element</param>
+        /// <returns>The drop command on the target element or null, if it does not exist</returns>
         public static ICommand GetOnDrop(FrameworkElement targetElement)
         {
             return (ICommand)targetElement.GetValue(OnDropProperty);
