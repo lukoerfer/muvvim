@@ -72,9 +72,12 @@
     <Compile Include="PropertyChanged\PropertyChangedDependencies.cs" />
     <Compile Include="PropertyChanged\PropertyChangedAction.cs" />
     <Compile Include="Util\GridUtil.cs" />
+    <Compile Include="Util\IEnumerableUtil.cs" />
     <Compile Include="Util\Separators.cs" />
     <Compile Include="Util\VectorUtil.cs" />
-    <Compile Include="ViewModel\VM.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelContextAttribute.cs" />
+    <Compile Include="ViewModel\ViewModelLoader.cs" />
     <Compile Include="Windows\BaseWindowed.cs" />
     <Compile Include="Windows\GenericWindowed.cs" />
     <Compile Include="_NamespaceDoc.cs" />

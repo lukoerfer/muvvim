@@ -7,20 +7,20 @@ using System.Text;
 
 namespace MvvmUtil.ViewModel
 {
-    public abstract class VM<Model> : INotifyPropertyChanged, IRaisePropertyChanged
+    public abstract class ViewModel<ModelType> : INotifyPropertyChanged, IRaisePropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected Model Instance;
+        protected ModelType Model;
 
-        protected VM()
+        public ViewModel()
         {
-            this.Instance = Activator.CreateInstance<Model>();
+            this.Model = Activator.CreateInstance<ModelType>();
         }
 
-        protected VM(Model instance)
+        public ViewModel(ModelType model)
         {
-            this.Instance = instance;
+            this.Model = model;
         }
 
         public void RaisePropertyChanged(PropertyChangedEventArgs args)

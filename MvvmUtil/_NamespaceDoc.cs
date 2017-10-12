@@ -44,3 +44,6 @@ namespace MvvmUtil.PropertyChanged { }
 /// Contains internal utility methods
 /// </summary>
 namespace MvvmUtil.Util { }
+
+
+namespace MvvmUtil.ViewModel { }
