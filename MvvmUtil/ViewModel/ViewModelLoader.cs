@@ -31,8 +31,7 @@ namespace MvvmUtil.ViewModel
             bool anyNamespace = namespaces.Length == 0;
             var viewModelTypes = assemblies.SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type.IsClass)
-                .Where(type => anyNamespace || namespaces
-                    .Any(@namespace => (type.Namespace ?? string.Empty).StartsWith(@namespace)))
+                .Where(type => anyNamespace || namespaces.Any(@namespace => (type.Namespace ?? string.Empty).StartsWith(@namespace)))
                 .Where(type => IsViewModelType(type))
                 .ToHashSet();
             return new ViewModelLoader() { ViewModelTypes = viewModelTypes };

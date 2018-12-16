@@ -27,7 +27,7 @@ namespace MvvmUtil.Extensions
                 new FrameworkPropertyMetadata(false));
 
         // Access to the read-only IsPressed property
-        private static DependencyProperty IsPressedProperty = IsPressedPropertyKey.DependencyProperty;
+        private static readonly DependencyProperty IsPressedProperty = IsPressedPropertyKey.DependencyProperty;
 
         /// <summary>
         /// Enables or disables states for an element

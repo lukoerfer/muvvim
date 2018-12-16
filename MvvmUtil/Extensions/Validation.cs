@@ -21,7 +21,7 @@ namespace MvvmUtil.Extensions
                 new FrameworkPropertyMetadata(false) { BindsTwoWayByDefault = true });
 
         /// <summary>
-        /// Registers the attached property for textbox RegEx patterns
+        /// Registers the attached property for TextBox RegEx patterns
         /// </summary>
         public static DependencyProperty PatternProperty =
             DependencyProperty.RegisterAttached("Pattern", typeof(string), typeof(Validation),

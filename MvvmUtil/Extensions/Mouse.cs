@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace MvvmUtil.Extensions
@@ -135,12 +131,10 @@ namespace MvvmUtil.Extensions
         {
             // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)sender;
-            // Cast the current handlers
-            ICommand pressedHandler = element.GetValue(OnPressedProperty) as ICommand;
             // Execute the pressed handler if possible
-            if (pressedHandler != null && pressedHandler.CanExecute(args.ChangedButton))
+            if (element.GetValue(OnPressedProperty) is ICommand pressedHandler && pressedHandler.CanExecute(args))
             {
-                pressedHandler.Execute(args.ChangedButton);
+                pressedHandler.Execute(args);
             }
         }
 
@@ -148,12 +142,10 @@ namespace MvvmUtil.Extensions
         {
             // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)sender;
-            // Cast the current released handler
-            ICommand releasedHandler = element.GetValue(OnReleasedProperty) as ICommand;
             // Execute the released handler if possible
-            if (releasedHandler != null && releasedHandler.CanExecute(args.ChangedButton))
+            if (element.GetValue(OnReleasedProperty) is ICommand releasedHandler && releasedHandler.CanExecute(args))
             {
-                releasedHandler.Execute(args.ChangedButton);
+                releasedHandler.Execute(args);
             }
         }
 
@@ -161,12 +153,10 @@ namespace MvvmUtil.Extensions
         {
             // Cast the FrameworkElement
             FrameworkElement element = (FrameworkElement)sender;
-            // Cast the current released handler
-            ICommand wheelHandler = element.GetValue(OnWheelProperty) as ICommand;
             // Execute the released handler if possible
-            if (wheelHandler != null && wheelHandler.CanExecute(args.Delta))
+            if (element.GetValue(OnWheelProperty) is ICommand wheelHandler && wheelHandler.CanExecute(args))
             {
-                wheelHandler.Execute(args.Delta);
+                wheelHandler.Execute(args);
             }
         }
     }

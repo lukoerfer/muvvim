@@ -16,8 +16,8 @@ namespace MvvmUtil.Command
         /// </summary>
         public event EventHandler CanExecuteChanged;
 
-        private Action Execution;
-        private Func<bool> Condition;
+        private readonly Action Execution;
+        private readonly Func<bool> Condition;
 
         /// <summary>
         /// Creates a new RelayCommand
@@ -30,7 +30,7 @@ namespace MvvmUtil.Command
         public RelayCommand(Action execution = null, Func<bool> condition = null)
         {
             this.Execution = execution ?? (() => { });
-            this.Condition = condition ?? (() => { return true; });
+            this.Condition = condition ?? (() => true);
         }
 
         /// <summary>

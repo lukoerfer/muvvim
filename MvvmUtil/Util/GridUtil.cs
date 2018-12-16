@@ -36,13 +36,16 @@ namespace MvvmUtil.Util
             {
                 return GridLength.Auto;
             }
-            if (definition.EndsWith(StarUnit))
+            else if (definition.EndsWith(StarUnit))
             {
                 string value = definition.Substring(0, definition.Length - 1);
                 value = string.IsNullOrEmpty(value) ? "1" : value;
                 return new GridLength(double.Parse(value), GridUnitType.Star);
             }
-            return new GridLength(double.Parse(definition), GridUnitType.Pixel);
+            else
+            {
+                return new GridLength(double.Parse(definition), GridUnitType.Pixel);
+            }
         }
     }
 

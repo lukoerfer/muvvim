@@ -1,37 +1,35 @@
-﻿using MvvmUtil.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+
+using MvvmUtil.Util;
 
 namespace MvvmUtil.Extensions
 {
     /// <summary>
-    /// Provides attached properties to simply define the rows / columns of a Grid and to position child elements
+    /// Provides attached properties to simply define the rows and columns of a Grid and to position child elements
     /// </summary>
-    public static class Layout
+    public static class Grid
     {
         /// <summary>
         /// Registers the attached property for simple row definitions
         /// </summary>
         public static DependencyProperty RowsProperty = 
-            DependencyProperty.RegisterAttached("Rows", typeof(string), typeof(Layout),
+            DependencyProperty.RegisterAttached("Rows", typeof(string), typeof(Grid),
                 new FrameworkPropertyMetadata(GridUtil.StarUnit, new PropertyChangedCallback(OnRowsChanged)));
 
         /// <summary>
         /// Registers the attached property for simple column definitions
         /// </summary>
         public static DependencyProperty ColumnsProperty = 
-            DependencyProperty.RegisterAttached("Columns", typeof(string), typeof(Layout),
+            DependencyProperty.RegisterAttached("Columns", typeof(string), typeof(Grid),
                 new FrameworkPropertyMetadata(GridUtil.StarUnit, new PropertyChangedCallback(OnColumnsChanged)));
 
         /// <summary>
         /// Registers the attached property for simple grid positioning
         /// </summary>
         public static DependencyProperty PositionProperty =
-            DependencyProperty.RegisterAttached("Position", typeof(string), typeof(Layout),
+            DependencyProperty.RegisterAttached("Position", typeof(string), typeof(Grid),
                 new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnPositionChanged)));
 
         /// <summary>
@@ -39,12 +37,12 @@ namespace MvvmUtil.Extensions
         /// </summary>
         /// <param name="grid">The grid</param>
         /// <param name="rowsString">A string defining rows</param>
-        public static void SetRows(Grid grid, string rowsString)
+        public static void SetRows(System.Windows.Controls.Grid grid, string rowsString)
         {
             grid.SetValue(RowsProperty, rowsString);
         }
 
-        public static string GetRows(Grid grid)
+        public static string GetRows(System.Windows.Controls.Grid grid)
         {
             return (string)grid.GetValue(RowsProperty);
         }
@@ -54,12 +52,12 @@ namespace MvvmUtil.Extensions
         /// </summary>
         /// <param name="grid">The grid</param>
         /// <param name="columnsString">A string defining columns</param>
-        public static void SetColumns(Grid grid, string columnsString)
+        public static void SetColumns(System.Windows.Controls.Grid grid, string columnsString)
         {
             grid.SetValue(ColumnsProperty, columnsString);
         }
 
-        public static string GetColumns(Grid grid)
+        public static string GetColumns(System.Windows.Controls.Grid grid)
         {
             return (string)grid.GetValue(ColumnsProperty);
         }
@@ -82,7 +80,7 @@ namespace MvvmUtil.Extensions
         private static void OnRowsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             // Cast the grid and the new row definition string
-            Grid grid = (Grid)obj;
+            System.Windows.Controls.Grid grid = (System.Windows.Controls.Grid)obj;
             string definitions = (string)args.NewValue;
             // Clear previous row definitions
             grid.RowDefinitions.Clear();
@@ -97,7 +95,7 @@ namespace MvvmUtil.Extensions
         private static void OnColumnsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             // Cast the grid and the new column definition string
-            Grid grid = (Grid)obj;
+            System.Windows.Controls.Grid grid = (System.Windows.Controls.Grid)obj;
             string definitions = (string)args.NewValue;
             // Clear previous column definitions
             grid.ColumnDefinitions.Clear();

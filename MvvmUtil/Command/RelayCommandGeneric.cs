@@ -17,8 +17,8 @@ namespace MvvmUtil.Command
         /// </summary>
         public event EventHandler CanExecuteChanged;
 
-        private Action<T> Execution;
-        private Func<T, bool> Condition;
+        private readonly Action<T> Execution;
+        private readonly Func<T, bool> Condition;
 
         /// <summary>
         /// Creates a new RelayCommand
@@ -30,8 +30,8 @@ namespace MvvmUtil.Command
         /// <param name="condition">The bool function to invoke for pre-execution check</param>
         public RelayCommand(Action<T> execution = null, Func<T, bool> condition = null)
         {
-            this.Execution = execution ?? ((arg) => { });
-            this.Condition = condition ?? ((arg) => { return true; });
+            this.Execution = execution ?? (arg => { });
+            this.Condition = condition ?? (arg => true);
         }
 
         /// <summary>
