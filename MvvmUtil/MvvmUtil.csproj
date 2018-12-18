@@ -61,7 +61,7 @@
     <Compile Include="Converter\Boolean\BooleanOppositeConverter.cs" />
     <Compile Include="Converter\Enum\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\DragAndDrop.cs" />
-    <Compile Include="Extensions\Layout.cs" />
+    <Compile Include="Extensions\Grid.cs" />
     <Compile Include="Converter\Converter.cs" />
     <Compile Include="Extensions\Mouse.cs" />
     <Compile Include="Extensions\States.cs" />
