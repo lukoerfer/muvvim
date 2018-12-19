@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -62,7 +62,6 @@
     <Compile Include="Converter\Enum\EnumDescriptionConverter.cs" />
     <Compile Include="Dialogs\BaseDialog.cs" />
     <Compile Include="Dialogs\MessageBox.cs" />
-    <Compile Include="Dialogs\OpenFileDialog.cs" />
     <Compile Include="Extensions\ContainerDragAndDrop.cs" />
     <Compile Include="Extensions\DragAndDrop.cs" />
     <Compile Include="Converter\ParameterConverter.cs" />
@@ -73,16 +72,18 @@
     <Compile Include="PropertyChanged\IRaisePropertyChanged.cs" />
     <Compile Include="PropertyChanged\ItemObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyChanged\PropertyChangedChildRoute.cs" />
+    <Compile Include="PropertyChanged\PropertyChangedRouting.cs" />
     <Compile Include="PropertyChanged\PropertyChangedDependencies.cs" />
     <Compile Include="PropertyChanged\PropertyChangedAction.cs" />
     <Compile Include="Util\GridUtil.cs" />
+    <Compile Include="Util\ICommandUtil.cs" />
     <Compile Include="Util\IEnumerableUtil.cs" />
     <Compile Include="Util\Separators.cs" />
     <Compile Include="Util\VectorUtil.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelContextAttribute.cs" />
+    <Compile Include="ViewModel\ViewModelAttribute.cs" />
+    <Compile Include="ViewModel\ContextAttribute.cs" />
     <Compile Include="ViewModel\ViewModelLoader.cs" />
     <Compile Include="_NamespaceDoc.cs" />
   </ItemGroup>

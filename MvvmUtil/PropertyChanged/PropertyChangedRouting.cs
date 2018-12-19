@@ -6,22 +6,15 @@ namespace MvvmUtil.PropertyChanged
     /// <summary>
     /// Provides the possibility to route PropertyChanged events of child properties
     /// </summary>
-    public class PropertyChangedChildRegister
+    public class PropertyChangedRouting
     {
-        private IRaisePropertyChanged RaiseInstance;
-
-        /// <summary>
-        /// Creates a new PropertyChanged child router
-        /// </summary>
-        /// <param name="instance">The instance which raises the PropertyChanged events, must be IRaisePropertyChanged</param>
-        public PropertyChangedChildRegister(object instance)
-            : this((IRaisePropertyChanged)instance) { }
+        private readonly IRaisePropertyChanged RaiseInstance;
 
         /// <summary>
         /// Creates a new PropertyChanged child register
         /// </summary>
         /// <param name="raiseInstance">The instance which raises the PropertyChanged events</param>
-        public PropertyChangedChildRegister(IRaisePropertyChanged raiseInstance)
+        public PropertyChangedRouting(IRaisePropertyChanged raiseInstance)
         {
             RaiseInstance = raiseInstance;
         }
@@ -29,19 +22,9 @@ namespace MvvmUtil.PropertyChanged
         /// <summary>
         /// Registers the child properties of a property
         /// </summary>
-        /// <param name="property">The parent property, must be INotifyPropertyChanged</param>
-        /// <param name="propertyName">The name of the parent property</param>
-        public void RegisterChildsOf(object property, string propertyName)
-        {
-            RegisterChildsOf((INotifyPropertyChanged)property, propertyName);
-        }
-
-        /// <summary>
-        /// Registers the child properties of a property
-        /// </summary>
         /// <param name="property">The parent property</param>
         /// <param name="propertyName">The name of the parent property</param>
-        public void RegisterChildsOf(INotifyPropertyChanged property, string propertyName)
+        public void Register(INotifyPropertyChanged property, string propertyName)
         {
             property.PropertyChanged += (sender, args) => HandlePropertyChanged(propertyName, args);
         }

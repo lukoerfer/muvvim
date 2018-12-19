@@ -1,91 +1,152 @@
-﻿using System.ComponentModel;
+﻿using MvvmUtil.Util;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
 namespace MvvmUtil.Dialogs
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DesignTimeVisible(false)]
     public class MessageBox : BaseDialog
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly DependencyProperty MessageProperty = 
             DependencyProperty.Register(nameof(Message), typeof(string), typeof(MessageBox), 
                 new FrameworkPropertyMetadata(string.Empty));
 
-        public static readonly DependencyProperty ImageProperty = 
-            DependencyProperty.Register(nameof(Image), typeof(object), typeof(MessageBox), 
-                new FrameworkPropertyMetadata(MessageBoxImage.None));
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly DependencyProperty ButtonsProperty = 
-            DependencyProperty.Register(nameof(Buttons), typeof(object), typeof(MessageBox), 
+            DependencyProperty.Register(nameof(Buttons), typeof(MessageBoxButton), typeof(MessageBox), 
                 new FrameworkPropertyMetadata(MessageBoxButton.OK));
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly DependencyProperty ImageProperty =
+            DependencyProperty.Register(nameof(Image), typeof(MessageBoxImage), typeof(MessageBox),
+                new FrameworkPropertyMetadata(MessageBoxImage.None));
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly DependencyProperty DefaultButtonProperty = 
-            DependencyProperty.Register(nameof(DefaultButton), typeof(object), typeof(MessageBox), 
+            DependencyProperty.Register(nameof(DefaultButton), typeof(MessageBoxResult), typeof(MessageBox), 
                 new FrameworkPropertyMetadata(MessageBoxResult.None));
 
-        public static readonly DependencyProperty OkCommandProperty = 
-            DependencyProperty.Register(nameof(OkCommand), typeof(ICommand), typeof(MessageBox));
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly DependencyProperty OnOkProperty = 
+            DependencyProperty.Register(nameof(OnOk), typeof(ICommand), typeof(MessageBox));
 
-        public static readonly DependencyProperty CancelCommandProperty = 
-            DependencyProperty.Register(nameof(CancelCommand), typeof(ICommand), typeof(MessageBox));
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly DependencyProperty OnCancelProperty = 
+            DependencyProperty.Register(nameof(OnCancel), typeof(ICommand), typeof(MessageBox));
 
-        public static readonly DependencyProperty YesCommandProperty = 
-            DependencyProperty.Register(nameof(YesCommand), typeof(ICommand), typeof(MessageBox));
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly DependencyProperty OnYesProperty = 
+            DependencyProperty.Register(nameof(OnYes), typeof(ICommand), typeof(MessageBox));
 
-        public static readonly DependencyProperty NoCommandProperty = 
-            DependencyProperty.Register(nameof(NoCommand), typeof(ICommand), typeof(MessageBox));
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly DependencyProperty OnNoProperty = 
+            DependencyProperty.Register(nameof(OnNo), typeof(ICommand), typeof(MessageBox));
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
             set { SetValue(MessageProperty, value); }
         }
 
-        public object Image
+        /// <summary>
+        /// 
+        /// </summary>
+        public MessageBoxButton Buttons
         {
-            get { return GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
-        }
-
-        public object Buttons
-        {
-            get { return GetValue(ButtonsProperty); }
+            get { return (MessageBoxButton)GetValue(ButtonsProperty); }
             set { SetValue(ButtonsProperty, value); }
         }
 
-        public object DefaultButton
+        /// <summary>
+        /// 
+        /// </summary>
+        public MessageBoxImage Image
         {
-            get { return GetValue(DefaultButtonProperty); }
+            get { return (MessageBoxImage)GetValue(ImageProperty); }
+            set { SetValue(ImageProperty, value); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public MessageBoxResult DefaultButton
+        {
+            get { return (MessageBoxResult)GetValue(DefaultButtonProperty); }
             set { SetValue(DefaultButtonProperty, value); }
         }
 
-        public ICommand OkCommand
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand OnOk
         {
-            get { return (ICommand)GetValue(OkCommandProperty); }
-            set { SetValue(OkCommandProperty, value); }
+            get { return (ICommand)GetValue(OnOkProperty); }
+            set { SetValue(OnOkProperty, value); }
         }
 
-        public ICommand CancelCommand
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand OnCancel
         {
-            get { return (ICommand)GetValue(CancelCommandProperty); }
-            set { SetValue(CancelCommandProperty, value); }
+            get { return (ICommand)GetValue(OnCancelProperty); }
+            set { SetValue(OnCancelProperty, value); }
         }
 
-        public ICommand YesCommand
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand OnYes
         {
-            get { return (ICommand)GetValue(YesCommandProperty); }
-            set { SetValue(YesCommandProperty, value); }
+            get { return (ICommand)GetValue(OnYesProperty); }
+            set { SetValue(OnYesProperty, value); }
         }
 
-        public ICommand NoCommand
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand OnNo
         {
-            get { return (ICommand)GetValue(NoCommandProperty); }
-            set { SetValue(NoCommandProperty, value); }
+            get { return (ICommand)GetValue(OnNoProperty); }
+            set { SetValue(OnNoProperty, value); }
         }
 
         protected override void Run()
         {
-            MessageBoxResult result = System.Windows.MessageBox.Show(Message, Title, (MessageBoxButton)Buttons, (MessageBoxImage)Image, (MessageBoxResult)DefaultButton);
+            MessageBoxResult result = System.Windows.MessageBox.Show(Window.GetWindow(this), Message, Title, Buttons, Image, DefaultButton);
+            Reset();
+            switch (result)
+            {
+                case MessageBoxResult.OK: OnOk?.ExecuteIfPossible(null); break;
+                case MessageBoxResult.Cancel: OnCancel?.ExecuteIfPossible(null); break;
+                case MessageBoxResult.Yes: OnYes?.ExecuteIfPossible(null); break;
+                case MessageBoxResult.No: OnNo?.ExecuteIfPossible(null); break;
+            }
         }
 
     }

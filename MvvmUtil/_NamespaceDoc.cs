@@ -31,6 +31,11 @@ namespace MvvmUtil.Converter.Enum { }
 namespace MvvmUtil.Converter.Special { }
 
 /// <summary>
+/// 
+/// </summary>
+namespace MvvmUtil.Dialogs { }
+
+/// <summary>
 /// Contains various attached properties to extend the functionality of WPF controls
 /// </summary>
 namespace MvvmUtil.Extensions { }
@@ -45,5 +50,7 @@ namespace MvvmUtil.PropertyChanged { }
 /// </summary>
 namespace MvvmUtil.Util { }
 
-
+/// <summary>
+/// 
+/// </summary>
 namespace MvvmUtil.ViewModel { }

@@ -191,7 +191,7 @@ namespace MvvmUtil.Extensions
             // Extract the drag data
             object data = args.Data.GetData(typeof(object));
             // Determine the drop handler
-            ICommand dropped = (ICommand)target.GetValue(OnDropProperty);  
+            ICommand dropped = (ICommand)target.GetValue(OnDropProperty);
             // Execute the finish handler if possible
             if (dropped != null && dropped.CanExecute(data))
             {

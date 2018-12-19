@@ -65,7 +65,7 @@ namespace MvvmUtil.ViewModel
         {
             return ViewModelTypes
                 .Where(viewModelType => GetModelType(viewModelType).IsAssignableFrom(modelTypeTarget))
-                .OrderBy(viewModelType => ViewModelContextAttribute.Evaluate(viewModelType, context))
+                .OrderBy(viewModelType => ContextAttribute.Evaluate(viewModelType, context))
                 .ThenBy(viewModelType => GetInheritanceDistance(modelTypeTarget, GetModelType(viewModelType)))
                 .First();
         }

@@ -10,11 +10,11 @@ namespace MvvmUtil.PropertyChanged
     /// </summary>
     public class PropertyChangedDependencies
     {
-        private INotifyPropertyChanged NotifyInstance;
-        private IRaisePropertyChanged RaiseInstance;
+        private readonly INotifyPropertyChanged NotifyInstance;
+        private readonly IRaisePropertyChanged RaiseInstance;
 
-        private object RuleLock;
-        private List<DependencyRule> Rules;
+        private readonly object RuleLock;
+        private readonly List<DependencyRule> Rules;
 
         /// <summary>
         /// Creates a new PropertyChanged dependency register
@@ -29,14 +29,14 @@ namespace MvvmUtil.PropertyChanged
         /// <summary>
         /// Creates a new PropertyChanged dependency register
         /// </summary>
-        /// <param name="notify">The instance which notifies about property changes</param>
-        /// <param name="raise">The instance which raises property change events</param>
-        public PropertyChangedDependencies(INotifyPropertyChanged notify, IRaisePropertyChanged raise)
+        /// <param name="notifyInstance">The instance which notifies about property changes</param>
+        /// <param name="raiseInstance">The instance which raises property change events</param>
+        public PropertyChangedDependencies(INotifyPropertyChanged notifyInstance, IRaisePropertyChanged raiseInstance)
         {
             RuleLock = new object();
             Rules = new List<DependencyRule>();
-            NotifyInstance = notify;
-            RaiseInstance = raise;
+            NotifyInstance = notifyInstance;
+            RaiseInstance = raiseInstance;
             NotifyInstance.PropertyChanged += HandlePropertyChanged;
         }
 
@@ -52,7 +52,7 @@ namespace MvvmUtil.PropertyChanged
                 Rules.Add(new DependencyRule(property, dependency));
                 if (AnyLoop(property, dependency))
                 {
-                    throw new InvalidOperationException("Creating dependency loops is not allowed");
+                    throw new InvalidOperationException($"Found dependency loop between {property} and {dependency}!");
                 }
             }
         }
@@ -60,21 +60,17 @@ namespace MvvmUtil.PropertyChanged
         private bool AnyLoop(string property, string dependency)
         {
             if (property.Equals(dependency)) return true;
-            return Rules
-                .Where(rule => rule.Property.Equals(dependency))
-                .Select(rule => rule.Dependency)
-                .Any(dep => AnyLoop(property, dep));
+            return Rules.Where(rule => rule.Property.Equals(dependency))
+                .Select(rule => rule.Dependency).Any(dep => AnyLoop(property, dep));
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             lock (RuleLock)
             {
-                Rules
-                    .Where(dependency => dependency.Dependency.Equals(args.PropertyName))
+                Rules.Where(dependency => dependency.Dependency.Equals(args.PropertyName))
                     .Select(dependency => dependency.Property)
-                    .ToList()
-                    .ForEach(RaisePropertyChanged);
+                    .ToList().ForEach(RaisePropertyChanged);
             }
         }
 
