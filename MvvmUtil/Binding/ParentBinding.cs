@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -21,15 +17,15 @@ namespace MvvmUtil.Binding
         /// <param name="path">The property path in the parent DataContext</param>
         public ParentBinding(string path) : base(path)
         {
-            this.ApplyParentContext();
+            ApplyParentContext();
         }
 
         private void ApplyParentContext()
         {
             // Set the path relative to the DataContext
-            this.Path = new PropertyPath(string.Join(Separators.Point, "DataContext", this.Path?.Path ?? string.Empty));
+            Path = new PropertyPath(string.Join(Separators.Point, "DataContext", Path?.Path ?? string.Empty));
             // Set the parent ItemsControl as relative source
-            this.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ItemsControl), 1);
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ItemsControl), 1);
         }
     }
 }

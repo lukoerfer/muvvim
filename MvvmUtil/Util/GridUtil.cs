@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -67,9 +64,8 @@ namespace MvvmUtil.Util
         {
             GridPosition position = new GridPosition();
             var values = definition
-                .Split(Separators.Space.ToChar(), Separators.Comma.ToChar())
-                .Select(part => part.Split(Separators.Minus.ToChar())
-                    .Select(value => int.Parse(value)));
+                .Split(Separators.Space.AsChar(), Separators.Comma.AsChar())
+                .Select(part => part.Split(Separators.Minus.AsChar()).Select(value => int.Parse(value)));
             position.Row = values.First().First();
             position.RowSpan = values.First().Last() - values.First().First() + 1;
             position.Column = values.Last().First();
@@ -83,10 +79,10 @@ namespace MvvmUtil.Util
         /// <param name="element">The UIElement to position</param>
         public void Apply(UIElement element)
         {
-            Grid.SetRow(element, this.Row);
-            Grid.SetRowSpan(element, this.RowSpan);
-            Grid.SetColumn(element, this.Column);
-            Grid.SetColumnSpan(element, this.ColumnSpan);
+            Grid.SetRow(element, Row);
+            Grid.SetRowSpan(element, RowSpan);
+            Grid.SetColumn(element, Column);
+            Grid.SetColumnSpan(element, ColumnSpan);
         }
     }
 }

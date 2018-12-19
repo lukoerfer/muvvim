@@ -1,10 +1,5 @@
 ﻿using MvvmUtil.Util;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MvvmUtil.PropertyChanged
 {
@@ -28,7 +23,7 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="raiseInstance">The instance which raises the PropertyChanged events</param>
         public PropertyChangedChildRegister(IRaisePropertyChanged raiseInstance)
         {
-            this.RaiseInstance = raiseInstance;
+            RaiseInstance = raiseInstance;
         }
 
         /// <summary>
@@ -38,7 +33,7 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="propertyName">The name of the parent property</param>
         public void RegisterChildsOf(object property, string propertyName)
         {
-            this.RegisterChildsOf((INotifyPropertyChanged)property, propertyName);
+            RegisterChildsOf((INotifyPropertyChanged)property, propertyName);
         }
 
         /// <summary>
@@ -48,13 +43,13 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="propertyName">The name of the parent property</param>
         public void RegisterChildsOf(INotifyPropertyChanged property, string propertyName)
         {
-            property.PropertyChanged += (sender, args) => this.HandlePropertyChanged(propertyName, args);
+            property.PropertyChanged += (sender, args) => HandlePropertyChanged(propertyName, args);
         }
 
         private void HandlePropertyChanged(string parentPropertyName, PropertyChangedEventArgs args)
         {
             string childPropertyName = string.Join(Separators.Point, parentPropertyName, args.PropertyName);
-            this.RaiseInstance.RaisePropertyChanged(new PropertyChangedEventArgs(childPropertyName));
+            RaiseInstance.RaisePropertyChanged(new PropertyChangedEventArgs(childPropertyName));
         }
     }
 }

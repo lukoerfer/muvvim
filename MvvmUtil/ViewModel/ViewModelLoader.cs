@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 using MvvmUtil.Util;
 
@@ -14,19 +13,19 @@ namespace MvvmUtil.ViewModel
 
         public ViewModelLoader(params Type[] types)
         {
-            this.ViewModelTypes = types
+            ViewModelTypes = types
                 .Assert(type => IsViewModelType(type))
                 .ToHashSet();
         }
 
         private ViewModelLoader() { }
 
-        public static ViewModelLoader From(Assembly assembly, params string[] namespaces)
+        public static ViewModelLoader CollectFrom(Assembly assembly, params string[] namespaces)
         {
-            return From(new[] { assembly }, namespaces);
+            return CollectFrom(new[] { assembly }, namespaces);
         }
 
-        public static ViewModelLoader From(Assembly[] assemblies, params string[] namespaces)
+        public static ViewModelLoader CollectFrom(Assembly[] assemblies, params string[] namespaces)
         {
             bool anyNamespace = namespaces.Length == 0;
             var viewModelTypes = assemblies.SelectMany(assembly => assembly.GetTypes())
@@ -64,7 +63,7 @@ namespace MvvmUtil.ViewModel
 
         private Type GetViewModelType(Type modelTypeTarget, string context)
         {
-            return this.ViewModelTypes
+            return ViewModelTypes
                 .Where(viewModelType => GetModelType(viewModelType).IsAssignableFrom(modelTypeTarget))
                 .OrderBy(viewModelType => ViewModelContextAttribute.Evaluate(viewModelType, context))
                 .ThenBy(viewModelType => GetInheritanceDistance(modelTypeTarget, GetModelType(viewModelType)))

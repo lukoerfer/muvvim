@@ -43,7 +43,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -53,16 +52,21 @@
     <Compile Include="Command\RelayCommandGeneric.cs" />
     <Compile Include="Converter\Boolean\BooleanAssignConverter.cs" />
     <Compile Include="Converter\Boolean\MultiBooleanConverter.cs" />
+    <Compile Include="Converter\Enum\EnumMappingConverter.cs" />
     <Compile Include="Converter\Special\ConverterChain.cs" />
+    <Compile Include="Converter\ParameterMultiConverter.cs" />
     <Compile Include="Converter\MultiConverter.cs" />
-    <Compile Include="Converter\SimpleMultiConverter.cs" />
-    <Compile Include="Converter\SimpleConverter.cs" />
+    <Compile Include="Converter\Converter.cs" />
     <Compile Include="Converter\Special\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\Boolean\BooleanOppositeConverter.cs" />
     <Compile Include="Converter\Enum\EnumDescriptionConverter.cs" />
+    <Compile Include="Dialogs\BaseDialog.cs" />
+    <Compile Include="Dialogs\MessageBox.cs" />
+    <Compile Include="Dialogs\OpenFileDialog.cs" />
+    <Compile Include="Extensions\ContainerDragAndDrop.cs" />
     <Compile Include="Extensions\DragAndDrop.cs" />
-    <Compile Include="Extensions\Grid.cs" />
-    <Compile Include="Converter\Converter.cs" />
+    <Compile Include="Converter\ParameterConverter.cs" />
+    <Compile Include="Extensions\Layout.cs" />
     <Compile Include="Extensions\Mouse.cs" />
     <Compile Include="Extensions\States.cs" />
     <Compile Include="Extensions\Validation.cs" />
@@ -77,7 +81,7 @@
     <Compile Include="Util\Separators.cs" />
     <Compile Include="Util\VectorUtil.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelGeneric.cs" />
+    <Compile Include="ViewModel\GenericViewModel.cs" />
     <Compile Include="ViewModel\ViewModelContextAttribute.cs" />
     <Compile Include="ViewModel\ViewModelLoader.cs" />
     <Compile Include="_NamespaceDoc.cs" />
@@ -85,6 +89,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

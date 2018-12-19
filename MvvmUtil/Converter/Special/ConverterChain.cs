@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows.Data;
 
 namespace MvvmUtil.Converter.Special
@@ -23,8 +22,7 @@ namespace MvvmUtil.Converter.Special
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // Apply each converter on result of the previous one, starting with the input value
-            return this.Aggregate(value, (current, converter) => 
-                converter.Convert(current, typeof(object), null, culture));
+            return this.Aggregate(value, (current, converter) => converter.Convert(current, typeof(object), null, culture));
         }
 
         /// <summary>
@@ -38,9 +36,7 @@ namespace MvvmUtil.Converter.Special
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // Reverse the converter list and apply each converter on the result of the previous one, starting with the input value
-            return this.Reverse<IValueConverter>()
-                .Aggregate(value, (current, converter) =>
-                    converter.Convert(current, typeof(object), null, culture));
+            return this.Reverse<IValueConverter>().Aggregate(value, (current, converter) => converter.Convert(current, typeof(object), null, culture));
         }
     }
 }

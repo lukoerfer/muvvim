@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace MvvmUtil.Converter.Enum
 {
     /// <summary>
     /// Implements the conversion of an enum value to its description attribute value
     /// </summary>
-    public class EnumDescriptionConverter : SimpleConverter<System.Enum, string>
+    public class EnumDescriptionConverter : Converter<System.Enum, string>
     {
         /// <summary>
         /// Converts an enum value to its description attribute value

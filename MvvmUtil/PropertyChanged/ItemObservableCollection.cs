@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using MvvmUtil.Util;
 
@@ -30,7 +27,7 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="initialItems">The initial items for the collection</param>
         public ItemObservableCollection(IEnumerable<T> initialItems) : base(initialItems)
         {
-            this.Register(initialItems);
+            Register(initialItems);
         }
 
         /// <summary>
@@ -39,18 +36,18 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="initialItems">The initial items for the collection</param>
         public ItemObservableCollection(List<T> initialItems) : base(initialItems)
         {
-            this.Register(initialItems);
+            Register(initialItems);
         }
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             if (args.NewItems != null)
             {
-                this.Register(args.NewItems.OfType<T>());
+                Register(args.NewItems.OfType<T>());
             }
             if (args.OldItems != null)
             {
-                this.Unregister(args.OldItems.OfType<T>());
+                Unregister(args.OldItems.OfType<T>());
             }
             base.OnCollectionChanged(args);
         }
@@ -59,7 +56,7 @@ namespace MvvmUtil.PropertyChanged
         {
             foreach (INotifyPropertyChanged item in items)
             {
-                item.PropertyChanged += this.ItemPropertyChanged;
+                item.PropertyChanged += ItemPropertyChanged;
             }
         }
 
@@ -67,7 +64,7 @@ namespace MvvmUtil.PropertyChanged
         {
             foreach (INotifyPropertyChanged item in items)
             {
-                item.PropertyChanged -= this.ItemPropertyChanged;
+                item.PropertyChanged -= ItemPropertyChanged;
             }
         }
 

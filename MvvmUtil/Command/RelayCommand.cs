@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace MvvmUtil.Command
@@ -29,8 +26,8 @@ namespace MvvmUtil.Command
         /// <param name="condition">The bool function to invoke for pre-execution check</param>
         public RelayCommand(Action execution = null, Func<bool> condition = null)
         {
-            this.Execution = execution ?? (() => { });
-            this.Condition = condition ?? (() => true);
+            Execution = execution ?? (() => { });
+            Condition = condition ?? (() => true);
         }
 
         /// <summary>
@@ -39,7 +36,7 @@ namespace MvvmUtil.Command
         /// <returns>The result of the condition function</returns>
         public bool CanExecute()
         {
-            return this.Condition.Invoke();
+            return Condition.Invoke();
         }
 
         /// <summary>
@@ -49,7 +46,7 @@ namespace MvvmUtil.Command
         /// <returns>The result of the condition function</returns>
         public bool CanExecute(object parameter)
         {
-            return this.Condition.Invoke();
+            return Condition.Invoke();
         }
 
         /// <summary>
@@ -57,7 +54,7 @@ namespace MvvmUtil.Command
         /// </summary>
         public void Execute()
         {
-            this.Execution.Invoke();
+            Execution.Invoke();
         }
 
         /// <summary>
@@ -66,7 +63,7 @@ namespace MvvmUtil.Command
         /// <param name="parameter">Required by ICommand, is ignored</param>
         public void Execute(object parameter)
         {
-            this.Execution.Invoke();
+            Execution.Invoke();
         }
     }
 }

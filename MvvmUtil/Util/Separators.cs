@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace MvvmUtil.Util
 {
@@ -32,7 +29,7 @@ namespace MvvmUtil.Util
         /// </summary>
         /// <param name="str">An input string</param>
         /// <returns>The first character of the input string or the 0 char, if the input string is empty</returns>
-        public static char ToChar(this string str)
+        public static char AsChar(this string str)
         {
             return str.FirstOrDefault();
         }

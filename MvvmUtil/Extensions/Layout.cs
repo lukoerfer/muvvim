@@ -9,42 +9,48 @@ namespace MvvmUtil.Extensions
     /// <summary>
     /// Provides attached properties to simply define the rows and columns of a Grid and to position child elements
     /// </summary>
-    public static class Grid
+    public static class Layout
     {
         /// <summary>
         /// Registers the attached property for simple row definitions
         /// </summary>
         public static DependencyProperty RowsProperty = 
-            DependencyProperty.RegisterAttached("Rows", typeof(string), typeof(Grid),
+            DependencyProperty.RegisterAttached("Rows", typeof(string), typeof(Layout),
                 new FrameworkPropertyMetadata(GridUtil.StarUnit, new PropertyChangedCallback(OnRowsChanged)));
 
         /// <summary>
         /// Registers the attached property for simple column definitions
         /// </summary>
         public static DependencyProperty ColumnsProperty = 
-            DependencyProperty.RegisterAttached("Columns", typeof(string), typeof(Grid),
+            DependencyProperty.RegisterAttached("Columns", typeof(string), typeof(Layout),
                 new FrameworkPropertyMetadata(GridUtil.StarUnit, new PropertyChangedCallback(OnColumnsChanged)));
 
         /// <summary>
         /// Registers the attached property for simple grid positioning
         /// </summary>
         public static DependencyProperty PositionProperty =
-            DependencyProperty.RegisterAttached("Position", typeof(string), typeof(Grid),
+            DependencyProperty.RegisterAttached("Position", typeof(string), typeof(Layout),
                 new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnPositionChanged)));
+
+
+        public static string GetRows(Grid grid)
+        {
+            return (string)grid.GetValue(RowsProperty);
+        }
 
         /// <summary>
         /// Sets the rows definition string for a grid
         /// </summary>
         /// <param name="grid">The grid</param>
         /// <param name="rowsString">A string defining rows</param>
-        public static void SetRows(System.Windows.Controls.Grid grid, string rowsString)
+        public static void SetRows(Grid grid, string rowsString)
         {
             grid.SetValue(RowsProperty, rowsString);
         }
 
-        public static string GetRows(System.Windows.Controls.Grid grid)
+        public static string GetColumns(Grid grid)
         {
-            return (string)grid.GetValue(RowsProperty);
+            return (string)grid.GetValue(ColumnsProperty);
         }
 
         /// <summary>
@@ -52,14 +58,14 @@ namespace MvvmUtil.Extensions
         /// </summary>
         /// <param name="grid">The grid</param>
         /// <param name="columnsString">A string defining columns</param>
-        public static void SetColumns(System.Windows.Controls.Grid grid, string columnsString)
+        public static void SetColumns(Grid grid, string columnsString)
         {
             grid.SetValue(ColumnsProperty, columnsString);
         }
 
-        public static string GetColumns(System.Windows.Controls.Grid grid)
+        public static string GetPosition(FrameworkElement element)
         {
-            return (string)grid.GetValue(ColumnsProperty);
+            return (string)element.GetValue(PositionProperty);
         }
 
         /// <summary>
@@ -72,21 +78,16 @@ namespace MvvmUtil.Extensions
             element.SetValue(PositionProperty, positionString);
         }
 
-        public static string GetPosition(FrameworkElement element)
-        {
-            return (string)element.GetValue(PositionProperty);
-        }
-
         private static void OnRowsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             // Cast the grid and the new row definition string
-            System.Windows.Controls.Grid grid = (System.Windows.Controls.Grid)obj;
+            Grid grid = (Grid)obj;
             string definitions = (string)args.NewValue;
             // Clear previous row definitions
             grid.RowDefinitions.Clear();
             // Parse and add a row definition for each entry
-            definitions.Split(Separators.Space[0], Separators.Comma[0])
-                .Select(def => GridUtil.ParseGridLength(def))
+            definitions.Split(Separators.Space.AsChar(), Separators.Comma.AsChar())
+                .Select(definition => GridUtil.ParseGridLength(definition))
                 .Select(length => new RowDefinition() { Height = length })
                 .ToList()
                 .ForEach(grid.RowDefinitions.Add);
@@ -95,13 +96,13 @@ namespace MvvmUtil.Extensions
         private static void OnColumnsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             // Cast the grid and the new column definition string
-            System.Windows.Controls.Grid grid = (System.Windows.Controls.Grid)obj;
+            Grid grid = (Grid)obj;
             string definitions = (string)args.NewValue;
             // Clear previous column definitions
             grid.ColumnDefinitions.Clear();
             // Parse and add a column definition for each entry
-            definitions.Split(Separators.Space[0], Separators.Comma[0])
-                .Select(def => GridUtil.ParseGridLength(def))
+            definitions.Split(Separators.Space.AsChar(), Separators.Comma.AsChar())
+                .Select(definition => GridUtil.ParseGridLength(definition))
                 .Select(length => new ColumnDefinition() { Width = length })
                 .ToList()
                 .ForEach(grid.ColumnDefinitions.Add);

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MvvmUtil.PropertyChanged
 {
@@ -35,11 +33,11 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="raise">The instance which raises property change events</param>
         public PropertyChangedDependencies(INotifyPropertyChanged notify, IRaisePropertyChanged raise)
         {
-            this.RuleLock = new object();
-            this.Rules = new List<DependencyRule>();
-            this.NotifyInstance = notify;
-            this.RaiseInstance = raise;
-            this.NotifyInstance.PropertyChanged += this.HandlePropertyChanged;
+            RuleLock = new object();
+            Rules = new List<DependencyRule>();
+            NotifyInstance = notify;
+            RaiseInstance = raise;
+            NotifyInstance.PropertyChanged += HandlePropertyChanged;
         }
 
         /// <summary>
@@ -49,10 +47,10 @@ namespace MvvmUtil.PropertyChanged
         /// <param name="dependency">The name of the causing property</param>
         public void RegisterDependency(string property, string dependency)
         {
-            lock (this.RuleLock)
+            lock (RuleLock)
             {
-                this.Rules.Add(new DependencyRule(property, dependency));
-                if (this.AnyLoop(property, dependency))
+                Rules.Add(new DependencyRule(property, dependency));
+                if (AnyLoop(property, dependency))
                 {
                     throw new InvalidOperationException("Creating dependency loops is not allowed");
                 }
@@ -62,27 +60,27 @@ namespace MvvmUtil.PropertyChanged
         private bool AnyLoop(string property, string dependency)
         {
             if (property.Equals(dependency)) return true;
-            return this.Rules
+            return Rules
                 .Where(rule => rule.Property.Equals(dependency))
                 .Select(rule => rule.Dependency)
-                .Any(dep => this.AnyLoop(property, dep));
+                .Any(dep => AnyLoop(property, dep));
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            lock (this.RuleLock)
+            lock (RuleLock)
             {
-                this.Rules
+                Rules
                     .Where(dependency => dependency.Dependency.Equals(args.PropertyName))
                     .Select(dependency => dependency.Property)
                     .ToList()
-                    .ForEach(this.RaisePropertyChanged);
+                    .ForEach(RaisePropertyChanged);
             }
         }
 
         private void RaisePropertyChanged(string propertyName)
         {
-            this.RaiseInstance.RaisePropertyChanged(new PropertyChangedEventArgs(propertyName));
+            RaiseInstance.RaisePropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 
@@ -93,8 +91,8 @@ namespace MvvmUtil.PropertyChanged
 
         public DependencyRule(string property, string dependency)
         {
-            this.Property = property;
-            this.Dependency = dependency;
+            Property = property;
+            Dependency = dependency;
         }
     }
 }

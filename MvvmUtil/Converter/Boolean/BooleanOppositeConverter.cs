@@ -3,7 +3,7 @@
     /// <summary>
     /// Implements the conversion of a boolean value to its opposite
     /// </summary>
-    public sealed class BooleanOppositeConverter : SimpleConverter<bool, bool>
+    public sealed class BooleanOppositeConverter : Converter<bool, bool>
     {
         /// <summary>
         /// Converts a boolean value to its opposite

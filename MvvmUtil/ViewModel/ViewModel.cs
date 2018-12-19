@@ -1,9 +1,5 @@
 ﻿using MvvmUtil.PropertyChanged;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace MvvmUtil.ViewModel
 {
@@ -13,7 +9,7 @@ namespace MvvmUtil.ViewModel
 
         public void RaisePropertyChanged(PropertyChangedEventArgs args)
         {
-            this.PropertyChanged.Invoke(this, args);
+            PropertyChanged.Invoke(this, args);
         }
     }
 }

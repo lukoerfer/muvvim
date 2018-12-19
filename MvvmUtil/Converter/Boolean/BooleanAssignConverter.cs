@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MvvmUtil.Converter.Boolean
 {
@@ -9,7 +6,7 @@ namespace MvvmUtil.Converter.Boolean
     /// Implements the conversion of a boolean value to one of two preassigned target objects
     /// </summary>
     /// <typeparam name="T">The type of the target object</typeparam>
-    public class BooleanAssignConverter<T> : SimpleConverter<bool, T>
+    public class BooleanAssignConverter<T> : Converter<bool, T>
     {
         /// <summary>
         /// Gets or sets the target object to return if the input value is true
@@ -27,7 +24,7 @@ namespace MvvmUtil.Converter.Boolean
         /// <returns>The TrueObject, if the input value is true, the FalseObject if the input value is false</returns>
         protected override T Convert(bool value)
         {
-            return value ? this.TrueObject : this.FalseObject;
+            return value ? TrueObject : FalseObject;
         }
 
         /// <summary>
@@ -37,8 +34,8 @@ namespace MvvmUtil.Converter.Boolean
         /// <returns>True, if the input object equals the TrueObject, false, if the input object equals the FalseObject</returns>
         protected override bool ConvertBack(T value)
         {
-            if (value.Equals(this.TrueObject)) return true;
-            if (value.Equals(this.FalseObject)) return false;
+            if (value.Equals(TrueObject)) return true;
+            if (value.Equals(FalseObject)) return false;
             throw new ArgumentException("Given object is not assignable", "value");
         }
     }

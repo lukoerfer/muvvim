@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace MvvmUtil.Command
@@ -30,8 +27,8 @@ namespace MvvmUtil.Command
         /// <param name="condition">The bool function to invoke for pre-execution check</param>
         public RelayCommand(Action<T> execution = null, Func<T, bool> condition = null)
         {
-            this.Execution = execution ?? (arg => { });
-            this.Condition = condition ?? (arg => true);
+            Execution = execution ?? (arg => { });
+            Condition = condition ?? (arg => true);
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace MvvmUtil.Command
         /// <returns>The result of the condition function</returns>
         public bool CanExecute(T parameter)
         {
-            return this.Condition.Invoke(parameter);
+            return Condition.Invoke(parameter);
         }
 
         /// <summary>
@@ -56,7 +53,7 @@ namespace MvvmUtil.Command
             {
                 throw new ArgumentException("Wrong parameter type", nameof(parameter));
             }
-            return this.Condition.Invoke((T)parameter);
+            return Condition.Invoke((T)parameter);
         }
 
         /// <summary>
@@ -65,7 +62,7 @@ namespace MvvmUtil.Command
         /// <param name="parameter">The generic execution parameter</param>
         public void Execute(T parameter)
         {
-            this.Execution.Invoke(parameter);
+            Execution.Invoke(parameter);
         }
 
         /// <summary>
@@ -79,7 +76,7 @@ namespace MvvmUtil.Command
             {
                 throw new ArgumentException("Wrong parameter type", nameof(parameter));
             }
-            this.Execution.Invoke((T)parameter);
+            Execution.Invoke((T)parameter);
         }
     }
 }

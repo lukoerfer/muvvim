@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MvvmUtil.ViewModel
 {
@@ -12,12 +11,12 @@ namespace MvvmUtil.ViewModel
 
         public ViewModelContextAttribute(params string[] contexts) : base()
         {
-            this.Contexts = contexts.ToList();
+            Contexts = contexts.ToList();
         }
 
         public ViewModelContextAttribute(params object[] contexts) : base()
         {
-            this.Contexts = contexts.Select(context => context.ToString()).ToList();
+            Contexts = contexts.Select(context => context.ToString()).ToList();
         }
 
         internal static uint Evaluate(Type type, string context)

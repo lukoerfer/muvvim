@@ -41,6 +41,11 @@ namespace MvvmUtil.Extensions
             DependencyProperty.RegisterAttached("OnDrop", typeof(ICommand), typeof(DragAndDrop),
                 new FrameworkPropertyMetadata(null, OnDropChanged));
 
+        public static bool GetAllowDrag(FrameworkElement element)
+        {
+            return (bool)element.GetValue(AllowDragProperty);
+        }
+
         /// <summary>
         /// Sets whether to allow dragging for an element
         /// </summary>
@@ -51,9 +56,9 @@ namespace MvvmUtil.Extensions
             element.SetValue(AllowDragProperty, allowDrag);
         }
 
-        public static bool GetAllowDrag(FrameworkElement element)
+        public static object GetDragData(FrameworkElement element)
         {
-            return (bool)element.GetValue(AllowDragProperty);
+            return element.GetValue(DragDataProperty);
         }
 
         /// <summary>
@@ -66,9 +71,9 @@ namespace MvvmUtil.Extensions
             element.SetValue(DragDataProperty, dragData);
         }
 
-        public static object GetDragData(FrameworkElement element)
+        public static ICommand GetOnFinish(FrameworkElement draggedElement)
         {
-            return element.GetValue(DragDataProperty);
+            return (ICommand)draggedElement.GetValue(OnFinishProperty);
         }
 
         /// <summary>
@@ -81,9 +86,14 @@ namespace MvvmUtil.Extensions
             draggedElement.SetValue(OnFinishProperty, dropCommand);
         }
 
-        public static ICommand GetOnFinish(FrameworkElement draggedElement)
+        /// <summary>
+        /// Gets the drop command of a target element
+        /// </summary>
+        /// <param name="targetElement">The target element</param>
+        /// <returns>The drop command on the target element or null, if it does not exist</returns>
+        public static ICommand GetOnDrop(FrameworkElement targetElement)
         {
-            return (ICommand)draggedElement.GetValue(OnFinishProperty);
+            return (ICommand)targetElement.GetValue(OnDropProperty);
         }
 
         /// <summary>
@@ -94,16 +104,6 @@ namespace MvvmUtil.Extensions
         public static void SetOnDrop(FrameworkElement targetElement, ICommand dropCommand)
         {
             targetElement.SetValue(OnDropProperty, dropCommand);
-        }
-
-        /// <summary>
-        /// Gets the drop command of a target element
-        /// </summary>
-        /// <param name="targetElement">The target element</param>
-        /// <returns>The drop command on the target element or null, if it does not exist</returns>
-        public static ICommand GetOnDrop(FrameworkElement targetElement)
-        {
-            return (ICommand)targetElement.GetValue(OnDropProperty);
         }
 
         private static void AllowDragChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
@@ -230,8 +230,8 @@ namespace MvvmUtil.Extensions
         /// <param name="data">The drop data</param>
         public Drop(Point position, object data)
         {
-            this.Position = position;
-            this.Data = data;
+            Position = position;
+            Data = data;
         }
     }
 }
