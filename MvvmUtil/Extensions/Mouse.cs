@@ -33,10 +33,10 @@ namespace MvvmUtil.Extensions
         /// Sets the command to execute on mouse down events
         /// </summary>
         /// <param name="element">The element</param>
-        /// <param name="command">The command to execute on mouse down events</param>
-        public static void SetOnPressed(FrameworkElement element, ICommand command)
+        /// <param name="value">The command to execute on mouse down events</param>
+        public static void SetOnPressed(FrameworkElement element, ICommand value)
         {
-            element.SetValue(OnPressedProperty, command);
+            element.SetValue(OnPressedProperty, value);
         }
 
         public static ICommand GetOnPressed(FrameworkElement element)
@@ -48,10 +48,10 @@ namespace MvvmUtil.Extensions
         /// Sets the command to execute on mouse up events
         /// </summary>
         /// <param name="element">The element</param>
-        /// <param name="command">The command to execute on mouse up events</param>
-        public static void SetOnReleased(FrameworkElement element, ICommand command)
+        /// <param name="value">The command to execute on mouse up events</param>
+        public static void SetOnReleased(FrameworkElement element, ICommand value)
         {
-            element.SetValue(OnReleasedProperty, command);
+            element.SetValue(OnReleasedProperty, value);
         }
 
         public static ICommand GetOnReleased(FrameworkElement element)
@@ -63,10 +63,10 @@ namespace MvvmUtil.Extensions
         /// Sets the command to execute on mouse wheel events
         /// </summary>
         /// <param name="element">The element</param>
-        /// <param name="command">The command to execute on mouse wheel events</param>
-        public static void SetOnWheel(FrameworkElement element, ICommand command)
+        /// <param name="value">The command to execute on mouse wheel events</param>
+        public static void SetOnWheel(FrameworkElement element, ICommand value)
         {
-            element.SetValue(OnWheelProperty, command);
+            element.SetValue(OnWheelProperty, value);
         }
 
         /// <summary>

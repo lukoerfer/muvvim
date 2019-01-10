@@ -50,10 +50,10 @@ namespace MvvmUtil.Extensions
         /// Sets whether to allow dragging for an element
         /// </summary>
         /// <param name="element">An element</param>
-        /// <param name="allowDrag">Whether to allow dragging</param>
-        public static void SetAllowDrag(FrameworkElement element, bool allowDrag)
+        /// <param name="value">Whether to allow dragging</param>
+        public static void SetAllowDrag(FrameworkElement element, bool value)
         {
-            element.SetValue(AllowDragProperty, allowDrag);
+            element.SetValue(AllowDragProperty, value);
         }
 
         public static object GetDragData(FrameworkElement element)
@@ -65,10 +65,10 @@ namespace MvvmUtil.Extensions
         /// Sets the dragged data for a draggable element
         /// </summary>
         /// <param name="element">The draggable element</param>
-        /// <param name="dragData">The drag transfered data</param>
-        public static void SetDragData(FrameworkElement element, object dragData)
+        /// <param name="value">The drag transfered data</param>
+        public static void SetDragData(FrameworkElement element, object value)
         {
-            element.SetValue(DragDataProperty, dragData);
+            element.SetValue(DragDataProperty, value);
         }
 
         public static ICommand GetOnFinish(FrameworkElement draggedElement)
@@ -80,10 +80,10 @@ namespace MvvmUtil.Extensions
         /// Sets the drop command for a dragged element
         /// </summary>
         /// <param name="draggedElement">The draggeed element</param>
-        /// <param name="dropCommand">The drop command</param>
-        public static void SetOnFinish(FrameworkElement draggedElement, ICommand dropCommand)
+        /// <param name="value">The drop command</param>
+        public static void SetOnFinish(FrameworkElement draggedElement, ICommand value)
         {
-            draggedElement.SetValue(OnFinishProperty, dropCommand);
+            draggedElement.SetValue(OnFinishProperty, value);
         }
 
         /// <summary>
@@ -100,10 +100,10 @@ namespace MvvmUtil.Extensions
         /// Sets the drop command of a target element
         /// </summary>
         /// <param name="targetElement">The target element</param>
-        /// <param name="dropCommand">The drop command</param>
-        public static void SetOnDrop(FrameworkElement targetElement, ICommand dropCommand)
+        /// <param name="value">The drop command</param>
+        public static void SetOnDrop(FrameworkElement targetElement, ICommand value)
         {
-            targetElement.SetValue(OnDropProperty, dropCommand);
+            targetElement.SetValue(OnDropProperty, value);
         }
 
         private static void AllowDragChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)

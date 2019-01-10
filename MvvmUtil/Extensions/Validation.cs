@@ -27,10 +27,10 @@ namespace MvvmUtil.Extensions
         /// Sets the validity of an input element
         /// </summary>
         /// <param name="element">The input element</param>
-        /// <param name="isValid">Whether the element input value is valid</param>
-        public static void SetIsValid(FrameworkElement element, bool isValid)
+        /// <param name="value">Whether the element input value is valid</param>
+        public static void SetIsValid(FrameworkElement element, bool value)
         {
-            element.SetValue(IsValidProperty, isValid);
+            element.SetValue(IsValidProperty, value);
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace MvvmUtil.Extensions
         /// Sets a RegEx pattern as textbox input validation
         /// </summary>
         /// <param name="textBox">A textbox</param>
-        /// <param name="pattern">A RegEx pattern</param>
-        public static void SetPattern(TextBox textBox, string pattern)
+        /// <param name="value">A RegEx pattern</param>
+        public static void SetPattern(TextBox textBox, string value)
         {
-            textBox.SetValue(PatternProperty, pattern);
+            textBox.SetValue(PatternProperty, value);
         }
 
         /// <summary>

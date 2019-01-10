@@ -30,10 +30,10 @@ namespace MvvmUtil.Extensions
         /// Enables or disables states for an element
         /// </summary>
         /// <param name="element">The element</param>
-        /// <param name="enable">Whether to enable or disable states</param>
-        public static void SetEnable(FrameworkElement element, bool enable)
+        /// <param name="value">Whether to enable or disable states</param>
+        public static void SetEnable(FrameworkElement element, bool value)
         {
-            element.SetValue(EnableProperty, enable);
+            element.SetValue(EnableProperty, value);
         }
 
         public static bool GetEnable(FrameworkElement element)

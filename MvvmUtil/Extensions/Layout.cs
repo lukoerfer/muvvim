@@ -42,10 +42,10 @@ namespace MvvmUtil.Extensions
         /// Sets the rows definition string for a grid
         /// </summary>
         /// <param name="grid">The grid</param>
-        /// <param name="rowsString">A string defining rows</param>
-        public static void SetRows(Grid grid, string rowsString)
+        /// <param name="value">A string defining rows</param>
+        public static void SetRows(Grid grid, string value)
         {
-            grid.SetValue(RowsProperty, rowsString);
+            grid.SetValue(RowsProperty, value);
         }
 
         public static string GetColumns(Grid grid)
@@ -57,10 +57,10 @@ namespace MvvmUtil.Extensions
         /// Sets the columns definition string for a grid
         /// </summary>
         /// <param name="grid">The grid</param>
-        /// <param name="columnsString">A string defining columns</param>
-        public static void SetColumns(Grid grid, string columnsString)
+        /// <param name="value">A string defining columns</param>
+        public static void SetColumns(Grid grid, string value)
         {
-            grid.SetValue(ColumnsProperty, columnsString);
+            grid.SetValue(ColumnsProperty, value);
         }
 
         public static string GetPosition(FrameworkElement element)
@@ -72,10 +72,10 @@ namespace MvvmUtil.Extensions
         /// Sets the position definition string for an element in a grid
         /// </summary>
         /// <param name="element">The element</param>
-        /// <param name="positionString">A string defining a grid position</param>
-        public static void SetPosition(FrameworkElement element, string positionString)
+        /// <param name="value">A string defining a grid position</param>
+        public static void SetPosition(FrameworkElement element, string value)
         {
-            element.SetValue(PositionProperty, positionString);
+            element.SetValue(PositionProperty, value);
         }
 
         private static void OnRowsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)

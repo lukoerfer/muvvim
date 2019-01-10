@@ -1,6 +1,6 @@
 ﻿namespace MvvmUtil.Extensions
 {
-    public class ContainerDragAndDrop
+    public static class ContainerDragAndDrop
     {
 
 

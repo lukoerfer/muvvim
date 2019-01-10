@@ -10,7 +10,7 @@ namespace MvvmUtil.Dialogs
     /// 
     /// </summary>
     [DesignTimeVisible(false)]
-    public class MessageBox : BaseDialog
+    public class MessageBox : Dialog
     {
         /// <summary>
         /// 
@@ -46,11 +46,6 @@ namespace MvvmUtil.Dialogs
         public static readonly DependencyProperty OnOkProperty = 
             DependencyProperty.Register(nameof(OnOk), typeof(ICommand), typeof(MessageBox));
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty OnCancelProperty = 
-            DependencyProperty.Register(nameof(OnCancel), typeof(ICommand), typeof(MessageBox));
 
         /// <summary>
         /// 
@@ -112,15 +107,6 @@ namespace MvvmUtil.Dialogs
         /// <summary>
         /// 
         /// </summary>
-        public ICommand OnCancel
-        {
-            get { return (ICommand)GetValue(OnCancelProperty); }
-            set { SetValue(OnCancelProperty, value); }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public ICommand OnYes
         {
             get { return (ICommand)GetValue(OnYesProperty); }
@@ -140,6 +126,7 @@ namespace MvvmUtil.Dialogs
         {
             MessageBoxResult result = System.Windows.MessageBox.Show(Window.GetWindow(this), Message, Title, Buttons, Image, DefaultButton);
             Reset();
+            OnResult?.ExecuteIfPossible(result);
             switch (result)
             {
                 case MessageBoxResult.OK: OnOk?.ExecuteIfPossible(null); break;

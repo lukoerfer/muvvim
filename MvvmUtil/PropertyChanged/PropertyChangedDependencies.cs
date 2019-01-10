@@ -45,7 +45,7 @@ namespace MvvmUtil.PropertyChanged
         /// </summary>
         /// <param name="property">The name of the depending property</param>
         /// <param name="dependency">The name of the causing property</param>
-        public void RegisterDependency(string property, string dependency)
+        public void AddDependency(string property, string dependency)
         {
             lock (RuleLock)
             {

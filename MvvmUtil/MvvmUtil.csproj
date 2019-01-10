@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -50,9 +50,8 @@
     <Compile Include="Binding\ParentBinding.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Command\RelayCommandGeneric.cs" />
-    <Compile Include="Converter\Boolean\BooleanAssignConverter.cs" />
+    <Compile Include="Converter\Boolean\BooleanMappingConverter.cs" />
     <Compile Include="Converter\Boolean\MultiBooleanConverter.cs" />
-    <Compile Include="Converter\Enum\EnumMappingConverter.cs" />
     <Compile Include="Converter\Special\ConverterChain.cs" />
     <Compile Include="Converter\ParameterMultiConverter.cs" />
     <Compile Include="Converter\MultiConverter.cs" />
@@ -60,8 +59,12 @@
     <Compile Include="Converter\Special\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\Boolean\BooleanOppositeConverter.cs" />
     <Compile Include="Converter\Enum\EnumDescriptionConverter.cs" />
-    <Compile Include="Dialogs\BaseDialog.cs" />
+    <Compile Include="Dialogs\Dialog.cs" />
+    <Compile Include="Dialogs\ExtensionFilter.cs" />
+    <Compile Include="Dialogs\FileDialog.cs" />
     <Compile Include="Dialogs\MessageBox.cs" />
+    <Compile Include="Dialogs\OpenFileDialog.cs" />
+    <Compile Include="Extensions\Closing.cs" />
     <Compile Include="Extensions\ContainerDragAndDrop.cs" />
     <Compile Include="Extensions\DragAndDrop.cs" />
     <Compile Include="Converter\ParameterConverter.cs" />
@@ -90,7 +93,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
