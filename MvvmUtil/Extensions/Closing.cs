@@ -9,7 +9,7 @@ namespace MvvmUtil.Extensions
     public static class Closing
     {
         public static readonly DependencyProperty TriggerProperty =
-            DependencyProperty.RegisterAttached("Trigger", typeof(bool), typeof(DependencyObject),
+            DependencyProperty.RegisterAttached("Trigger", typeof(bool), typeof(Closing),
                 new FrameworkPropertyMetadata(OnTriggerChanged));
 
         public static bool GetTrigger(DependencyObject window)

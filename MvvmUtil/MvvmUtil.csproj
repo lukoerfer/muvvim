@@ -66,6 +66,7 @@
     <Compile Include="Dialogs\OpenFileDialog.cs" />
     <Compile Include="Extensions\Closing.cs" />
     <Compile Include="Extensions\ContainerDragAndDrop.cs" />
+    <Compile Include="Extensions\Decoration.cs" />
     <Compile Include="Extensions\DragAndDrop.cs" />
     <Compile Include="Converter\ParameterConverter.cs" />
     <Compile Include="Extensions\Layout.cs" />
