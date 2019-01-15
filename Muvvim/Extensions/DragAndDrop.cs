@@ -1,0 +1,237 @@
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Input;
+
+using Muvvim.Util;
+
+namespace Muvvim.Extensions
+{
+    /// <summary>
+    /// Provides attached properties to implement drag and drop in MVVM
+    /// </summary>
+    public static class DragAndDrop
+    {
+        // Start positions of drags (required for minimum drag distance)
+        private static Dictionary<FrameworkElement, Point> DragPreparation = 
+            new Dictionary<FrameworkElement, Point>();
+
+        /// <summary>
+        /// Registers the attached property that can enable dragging
+        /// </summary>
+        public static DependencyProperty AllowDragProperty =
+            DependencyProperty.RegisterAttached("AllowDrag", typeof(bool), typeof(DragAndDrop),
+                new FrameworkPropertyMetadata(false, AllowDragChanged));
+
+        /// <summary>
+        /// Registers the attached property that defines the dragged data
+        /// </summary>
+        public static DependencyProperty DragDataProperty =
+            DependencyProperty.RegisterAttached("DragData", typeof(object), typeof(DragAndDrop));
+
+        /// <summary>
+        /// Registers the attached property for the command to execute on a dropped element
+        /// </summary>
+        public static DependencyProperty OnFinishProperty =
+            DependencyProperty.RegisterAttached("OnFinish", typeof(ICommand), typeof(DragAndDrop));
+
+        /// <summary>
+        /// Registers the attached property for the command to execute on the drop target
+        /// </summary>
+        public static DependencyProperty OnDropProperty = 
+            DependencyProperty.RegisterAttached("OnDrop", typeof(ICommand), typeof(DragAndDrop),
+                new FrameworkPropertyMetadata(null, OnDropChanged));
+
+        public static bool GetAllowDrag(FrameworkElement element)
+        {
+            return (bool)element.GetValue(AllowDragProperty);
+        }
+
+        /// <summary>
+        /// Sets whether to allow dragging for an element
+        /// </summary>
+        /// <param name="element">An element</param>
+        /// <param name="value">Whether to allow dragging</param>
+        public static void SetAllowDrag(FrameworkElement element, bool value)
+        {
+            element.SetValue(AllowDragProperty, value);
+        }
+
+        public static object GetDragData(FrameworkElement element)
+        {
+            return element.GetValue(DragDataProperty);
+        }
+
+        /// <summary>
+        /// Sets the dragged data for a draggable element
+        /// </summary>
+        /// <param name="element">The draggable element</param>
+        /// <param name="value">The drag transfered data</param>
+        public static void SetDragData(FrameworkElement element, object value)
+        {
+            element.SetValue(DragDataProperty, value);
+        }
+
+        public static ICommand GetOnFinish(FrameworkElement draggedElement)
+        {
+            return (ICommand)draggedElement.GetValue(OnFinishProperty);
+        }
+
+        /// <summary>
+        /// Sets the drop command for a dragged element
+        /// </summary>
+        /// <param name="draggedElement">The draggeed element</param>
+        /// <param name="value">The drop command</param>
+        public static void SetOnFinish(FrameworkElement draggedElement, ICommand value)
+        {
+            draggedElement.SetValue(OnFinishProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the drop command of a target element
+        /// </summary>
+        /// <param name="targetElement">The target element</param>
+        /// <returns>The drop command on the target element or null, if it does not exist</returns>
+        public static ICommand GetOnDrop(FrameworkElement targetElement)
+        {
+            return (ICommand)targetElement.GetValue(OnDropProperty);
+        }
+
+        /// <summary>
+        /// Sets the drop command of a target element
+        /// </summary>
+        /// <param name="targetElement">The target element</param>
+        /// <param name="value">The drop command</param>
+        public static void SetOnDrop(FrameworkElement targetElement, ICommand value)
+        {
+            targetElement.SetValue(OnDropProperty, value);
+        }
+
+        private static void AllowDragChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            // Get the source element
+            FrameworkElement element = (FrameworkElement)obj;
+            // Check if drag is allowed
+            if ((bool)args.NewValue)
+            {
+                // Register mouse events for drags
+                element.PreviewMouseLeftButtonDown += OnDragPrepare;
+                element.PreviewMouseLeftButtonUp += OnDragDiscard;
+            }
+            else
+            {
+                // Unregister mouse events
+                element.PreviewMouseLeftButtonDown -= OnDragPrepare;
+                element.PreviewMouseLeftButtonUp -= OnDragDiscard;
+            }
+        }
+
+        private static void OnDropChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            FrameworkElement element = (FrameworkElement)obj;
+            // Check for drop command
+            if (args.NewValue != null)
+            {
+                // Allow drops
+                element.AllowDrop = true;
+                // Register drop events
+                element.PreviewDrop += OnDrop;
+            }
+            else
+            {
+                // Forbid drops
+                element.AllowDrop = false;
+                // Unregister drop events
+                element.PreviewDrop -= OnDrop;
+            }
+        }
+
+        private static void OnDragPrepare(object sender, MouseButtonEventArgs args)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            // Save the start position
+            DragPreparation[element] = args.GetPosition(null);
+            // Register mouse move
+            element.PreviewMouseMove += OnDragStart;
+        }
+
+        private static void OnDragDiscard(object sender, MouseButtonEventArgs args)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            // Unregister mouse move
+            element.PreviewMouseMove -= OnDragStart;
+            // Delete the saved start position
+            DragPreparation.Remove(element);
+        }
+
+        private static void OnDragStart(object sender, MouseEventArgs args)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            // Calculate the drag distance
+            Vector distance = (DragPreparation[element] - args.GetPosition(null)).Abs();
+            // Check for the minimum drag distance
+            if (distance.X >= SystemParameters.MinimumHorizontalDragDistance ||
+                distance.Y >= SystemParameters.MinimumVerticalDragDistance)
+            {
+                // Stop the preparation
+                element.PreviewMouseMove -= OnDragStart;
+                DragPreparation.Remove(element);
+                // Pack the data
+                object data = element.GetValue(DragDataProperty) ?? element.DataContext;
+                DataObject dataObj = new DataObject();
+                dataObj.SetData(typeof(object), data);
+                dataObj.SetData(typeof(FrameworkElement), element);
+                // Start the drag and drop operation
+                DragDrop.DoDragDrop(element, dataObj, DragDropEffects.All);
+            }
+        }
+
+        private static void OnDrop(object sender, DragEventArgs args)
+        {
+            FrameworkElement target = (FrameworkElement)sender;
+            // Extract the drag data
+            object data = args.Data.GetData(typeof(object));
+            // Determine the drop handler
+            ICommand dropped = (ICommand)target.GetValue(OnDropProperty);
+            // Execute the finish handler if possible
+            if (dropped != null && dropped.CanExecute(data))
+            {
+                dropped.Execute(data);
+                // Extract the source element
+                FrameworkElement source = (FrameworkElement)args.Data.GetData(typeof(FrameworkElement));
+                // Determine the finish handler
+                ICommand finished = (ICommand)source.GetValue(OnFinishProperty);
+                // Execute the finish handler if possible
+                if (finished != null && finished.CanExecute(data))
+                {
+                    finished.Execute(data);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Stores the position and the data of a drop
+    /// </summary>
+    public class Drop
+    {
+        /// <summary>
+        /// Gets or sets the drop position
+        /// </summary>
+        public Point Position { get; private set; }
+        /// <summary>
+        /// Gets or sets the drop data
+        /// </summary>
+        public object Data { get; private set; }
+
+        /// <summary>
+        /// Creates a new drop
+        /// </summary>
+        /// <param name="position">The drop position</param>
+        /// <param name="data">The drop data</param>
+        public Drop(Point position, object data)
+        {
+            Position = position;
+            Data = data;
+        }
+    }
+}
