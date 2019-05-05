@@ -2,12 +2,22 @@
 Utilities for Windows Presentation Framework (WPF) and the Model-View-ViewModel (MVVM) pattern
 
 ## Motivation
-Working with the Windows Presentation Framework (WPF) and the Model-View-ViewModel (MVVM) pattern in particular often requires writing boilerplate or unnecessary verbose code both in the XAML views and the C# view models. This library is a very individual collection of different utilities or extensions that may be helpful when working with these technologies. Some parts were already used in small projects, others arised out of sudden inspiration. Therefore, this library should not serve a single purpose, but as a toolbox for future WPF projects.
+Working with the Windows Presentation Framework (WPF) and the Model-View-ViewModel (MVVM) pattern in particular often requires writing boilerplate or unnecessary verbose code both in the XAML views and the C# view models. In addition, some features required from time to time are not provided out of the box. This library is a very individual collection of utilities and extensions that may be helpful when working with WPF and MVVM. Some components originate from various former projects, others arised out of sudden inspiration. Therefore, this library does not aim to serve a single purpose, but as a toolbox for future WPF projects.
 
 ## Installation
 
 
 ## Usage
+The library contains a lot of different components and is partitioned into the following namespaces:
+
+* `Binding`
+* `Command`
+* `Converter`
+* `Dialogs`
+* `Extensions`
+* `PropertyChanged`
+* `ViewModel`
+
 Check out [the wiki](https://github.com/lukoerfer/muvvim/wiki) for detailed descriptions of the different components.
 
 ## License
