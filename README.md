@@ -10,13 +10,13 @@ Working with the Windows Presentation Framework (WPF) and the Model-View-ViewMod
 ## Usage
 The library contains a lot of different components and is partitioned into the following namespaces:
 
-* `Binding`
-* `Command`
-* `Converter`
-* `Dialogs`
-* `Extensions`
-* `PropertyChanged`
-* `ViewModel`
+* `Binding` - Functionality regarding WPF bindings
+* `Command` - Implementations of the `ICommand` interface
+* `Converter` - Type-safe converte templates as well as various predefined converters
+* `Dialogs` - Classic WPF dialogs ported to the MVVM pattern
+* `Extensions` - XAML extensions (attached properties, behaviors, ...)
+* `PropertyChanged` - Functionality regarding the `PropertyChanged` event
+* `ViewModel` - Template and handling for view models
 
 Check out [the wiki](https://github.com/lukoerfer/muvvim/wiki) for detailed descriptions of the different components.
 
